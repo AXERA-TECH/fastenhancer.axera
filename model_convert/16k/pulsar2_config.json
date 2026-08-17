@@ -1,0 +1,60 @@
+{
+  "input": "/workspace/model_convert/16k/model.onnx",
+  "output_dir": "/workspace/model_convert/16k",
+  "output_name": "model.axmodel",
+  "work_dir": "/workspace/model_convert/16k/work",
+  "model_type": "ONNX",
+  "target_hardware": "AX650",
+  "npu_mode": "NPU3",
+  "input_shapes": "comp_spec:1x256x1x2,cache_in_0:1x16x20,cache_in_1:1x16x20",
+  "onnx_opt": {
+    "disable_onnx_optimization": false,
+    "enable_onnxsim": false,
+    "model_check": true
+  },
+  "quant": {
+    "input_configs": [
+      {
+        "tensor_name": "comp_spec",
+        "calibration_dataset": "/workspace/model_convert/16k/calib/comp_spec.tar.gz",
+        "calibration_format": "Numpy",
+        "calibration_size": 16,
+        "calibration_mean": [],
+        "calibration_std": []
+      },
+      {
+        "tensor_name": "cache_in_0",
+        "calibration_dataset": "/workspace/model_convert/16k/calib/cache_in_0.tar.gz",
+        "calibration_format": "Numpy",
+        "calibration_size": 16,
+        "calibration_mean": [],
+        "calibration_std": []
+      },
+      {
+        "tensor_name": "cache_in_1",
+        "calibration_dataset": "/workspace/model_convert/16k/calib/cache_in_1.tar.gz",
+        "calibration_format": "Numpy",
+        "calibration_size": 16,
+        "calibration_mean": [],
+        "calibration_std": []
+      }
+    ],
+    "calibration_method": "MinMax",
+    "precision_analysis": false,
+    "highest_mix_precision": false,
+    "layer_configs": [
+      {
+        "start_tensor_names": [
+          "DEFAULT"
+        ],
+        "end_tensor_names": [
+          "DEFAULT"
+        ],
+        "data_type": "U16",
+        "weight_data_type": "S8",
+        "output_data_type": "U16"
+      }
+    ]
+  },
+  "input_processors": []
+}

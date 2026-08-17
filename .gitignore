@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.axmodel
+*.onnx
+*.pt
+*.bin
+*.tar.gz
+build/
+build_*/
+origin/
+model_convert/*/calib/
+output/
+
+# C++ 编译产物与工具链（工具链下载方式见 cpp/README.md）
+cpp/bin/
+cpp/toolchains/

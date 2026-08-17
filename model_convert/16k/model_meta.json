@@ -1,0 +1,89 @@
+{
+  "model_name": "fastenhancer_t_16k_corenet",
+  "framework": "pytorch",
+  "split_pipeline": true,
+  "streaming": true,
+  "sample_rate": 16000,
+  "n_fft": 512,
+  "hop_size": 256,
+  "win": "hann",
+  "input_compression": 0.3,
+  "host_preprocess": "STFT + magnitude compression (mag^-0.7) — drop last freq bin",
+  "host_postprocess": "complex mask apply + decompression (mag^2.333) + pad + ISTFT",
+  "note": "NPU runs neural core only (compressed spec -> complex mask). STFT/ISTFT + compress/decompress on host CPU.",
+  "inputs": [
+    {
+      "name": "comp_spec",
+      "shape": [
+        1,
+        256,
+        1,
+        2
+      ],
+      "dtype": "float32",
+      "note": "compressed STFT (real+imag, F=n_fft/2)"
+    },
+    {
+      "name": "cache_in_0",
+      "shape": [
+        1,
+        16,
+        20
+      ],
+      "dtype": "float32",
+      "note": "GRU block0 state"
+    },
+    {
+      "name": "cache_in_1",
+      "shape": [
+        1,
+        16,
+        20
+      ],
+      "dtype": "float32",
+      "note": "GRU block1 state"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "mask",
+      "shape": [
+        1,
+        256,
+        1,
+        2
+      ],
+      "dtype": "float32",
+      "note": "complex mask"
+    },
+    {
+      "name": "cache_out_0",
+      "shape": [
+        1,
+        16,
+        20
+      ],
+      "dtype": "float32"
+    },
+    {
+      "name": "cache_out_1",
+      "shape": [
+        1,
+        16,
+        20
+      ],
+      "dtype": "float32"
+    }
+  ],
+  "opset": 17,
+  "params": 21774,
+  "cache_info": {
+    "count": 2,
+    "shape": [
+      1,
+      16,
+      20
+    ],
+    "init": "zeros"
+  }
+}

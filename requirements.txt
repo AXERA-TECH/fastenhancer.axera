@@ -1,0 +1,12 @@
+torch>=2.0
+onnx>=1.14
+onnxruntime>=1.14
+onnxsim
+onnxslim
+librosa
+numpy
+pyyaml
+tensorboard
+pesq
+pystoi
+torch_pesq

@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
+project(fastenhancer)
+
+if(NOT DEFINED CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 17)
+endif()
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(CMAKE_CXX_FLAGS "-fvisibility=hidden -g -O0")
+else()
+    set(CMAKE_CXX_FLAGS "-fvisibility=hidden -O2 -fdata-sections -ffunction-sections")
+endif()
+
+# Platform (same as ZipVoice.AXERA)
+if(AX650)
+    add_definitions(-DAX650)
+    if(NOT BSP_MSP_DIR)
+        set(BSP_MSP_DIR /data/shared/huyuan/toolchains/ax650n_bsp_sdk/msp/out)
+    endif()
+    if(NOT EXISTS ${BSP_MSP_DIR})
+        message(FATAL_ERROR "BSP_MSP_DIR ${BSP_MSP_DIR} not exist.")
+    endif()
+    include_directories(${BSP_MSP_DIR}/include)
+    link_directories(${BSP_MSP_DIR}/lib)
+    set(MSP_LIBS ax_sys ax_engine ax_interpreter)
+else()
+    message(FATAL_ERROR "Use -DAX650")
+endif()
+
+# Model variant: 16k (default) or 48k
+set(FE_MODEL "16k" CACHE STRING "Model variant: 16k or 48k")
+if(FE_MODEL STREQUAL "48k")
+    add_definitions(-DFE_MODEL_48K)
+    message(STATUS "Model: 48kHz")
+else()
+    message(STATUS "Model: 16kHz")
+endif()
+
+include_directories(${CMAKE_SOURCE_DIR})
+
+add_executable(fastenhancer_demo main.cpp fastenhancer.cpp)
+target_link_libraries(fastenhancer_demo ${MSP_LIBS} pthread m)
+
+install(TARGETS fastenhancer_demo RUNTIME DESTINATION ./)
+set_target_properties(fastenhancer_demo PROPERTIES INSTALL_RPATH "$ORIGIN/")
