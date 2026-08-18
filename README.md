@@ -243,10 +243,13 @@ make -j$(nproc)
 
 ```bash
 # 16kHz
-LD_LIBRARY_PATH=/soc/lib ./bin/fastenhancer_ax650_16k model_convert/16k/model.axmodel noisy.wav enhanced.wav
+./bin/fastenhancer_ax650_16k model_convert/16k/model.axmodel noisy.wav enhanced.wav
 # 48kHz
-LD_LIBRARY_PATH=/soc/lib ./bin/fastenhancer_ax650_48k model_convert/48k/model.axmodel noisy.wav enhanced.wav
+./bin/fastenhancer_ax650_48k model_convert/48k/model.axmodel noisy.wav enhanced.wav
 ```
+
+板端运行库在 `/soc/lib`，系统已配置搜索路径，一般直接运行即可；如提示找不到
+`libax_*.so`，再加 `export LD_LIBRARY_PATH=/soc/lib:${LD_LIBRARY_PATH:-}`。
 
 #### 性能
 
