@@ -55,7 +55,8 @@ LD_LIBRARY_PATH=/soc/lib ./bin/fastenhancer_ax650_48k model_convert/48k/model.ax
 
 | 模型 | Python RTF | C++ RTF |
 |------|:--:|:--:|
-| 16k | 0.20 | 0.02 |
-| 48k | 0.31 | 0.06 |
+| 16k | 0.21 | 0.02 |
+| 48k | 0.34 | 0.05 |
 
-> RTF = 推理时间 / 音频时长（不含模型加载）。
+> RTF = 推理总耗时 / 音频时长（不含模型加载，Python N=10 / C++ N=3 平均）。
+> 口径为端到端 `enhance()`：CPU STFT/压缩 + NPU 核 + 解压/ISTFT 全链路。

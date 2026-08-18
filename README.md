@@ -255,10 +255,11 @@ make -j$(nproc)
 
 | 模型 | Python RTF | C++ RTF |
 |------|:--:|:--:|
-| 16k | 0.20 | 0.02 |
-| 48k | 0.31 | 0.06 |
+| 16k | 0.21 | 0.02 |
+| 48k | 0.34 | 0.05 |
 
-> RTF = 推理时间 / 音频时长（不含模型加载），AX650 板端实测。
+> RTF = 推理总耗时 / 音频时长（不含模型加载，AX650 板端实测，Python N=10 / C++ N=3
+> 平均）。口径为端到端 `enhance()`：CPU STFT/压缩 + NPU 核 + 解压/ISTFT 全链路。
 
 预编译模型和 SDK 也提供 HuggingFace 即取即用版（含 C++ 可执行文件）：
 [FastEnhancer.AXERA](https://huggingface.co/AXERA-TECH/fastenhancer.axera)。
